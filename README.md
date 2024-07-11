@@ -1,29 +1,24 @@
-# CI/CD Pipeline for Django Project using AWS
+# ci-cd-configurations-files
 
-![AWS CI/CD](https://github.com/rashiddaha/blogprojectdrf/assets/51082957/fff5b1bc-edc2-476c-8c23-5d6f9650249f)
-
-### Overview
-
-This repository contains a Django project and configurations for a CI/CD pipeline using AWS services.
-
-### Prerequisites
-
-- AWS account with CodePipeline, CodeDeploy, and CodeBuild access.
-- GitHub repository with Django project code.
-- AWS CLI configured with necessary permissions.
-
-### Setup Steps
-
-#### 1. Clone Repository
-
-```bash
-git clone https://github.com/your-username/your-django-project.git
-
-```
-#### 2. Follow the YouTube video for details
-### Youtube Video Link for CI/CD : https://www.youtube.com/embed/pXNB8uAGlx8?si=QaVHT6NpcSt8uWna
+## Commands: We have used in Our Video
 
 
-<a href="https://www.buymeacoffee.com/codewithmuh" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-yellow.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+$ wget https://Bucket-name.s3.Region-identifier.amazonaws.com/latest/install
+
+
+##### Next up, we need to change the permission on the install file we will get after running the command above.
+
+$ chmod +x ./install
+
+##### Finally, to install the codedeploy-agent, run this command:
+
+$ sudo ./install auto > /tmp/logfile
+
+###### Here we are logging the output of the installation to the /tmp/logfile file. To check if the codedeploy-agent is running, enter this command:
+$ sudo service codedeploy-agent status
+
+###### If it is not running, enter this command to start the codedeploy-agent service:
+
+$ sudo service codedeploy-agent status
 
 
