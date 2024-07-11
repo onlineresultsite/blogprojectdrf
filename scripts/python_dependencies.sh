@@ -11,3 +11,5 @@ pip install --upgrade pip setuptools wheel
 
 # Install dependencies
 pip install -r /home/ubuntu/blogprojectdrf/requirements.txt
+
+chmod +x /path/to/your/scripts/python_dependencies.sh
