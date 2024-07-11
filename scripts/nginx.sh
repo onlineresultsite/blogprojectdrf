@@ -10,4 +10,5 @@ sudo ln -s /etc/nginx/sites-available/blog /etc/nginx/sites-enabled/
 #sudo nginx -t
 sudo gpasswd -a www-data ubuntu
 sudo systemctl restart nginx
+chmod +x /home/ubuntu/blogprojectdrf/scripts/*.sh
 

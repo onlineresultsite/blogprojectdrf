@@ -25,3 +25,5 @@ phases:
 artifacts:
   files:
     - '**/*'
+
+chmod +x /home/ubuntu/blogprojectdrf/scripts/*.sh

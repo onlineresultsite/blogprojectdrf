@@ -34,4 +34,4 @@ hooks:
         timeout: 300
         runas: ubuntu
   
-  
+chmod +x /home/ubuntu/blogprojectdrf/scripts/*.sh
