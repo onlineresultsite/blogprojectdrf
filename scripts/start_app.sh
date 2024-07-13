@@ -1,10 +1,10 @@
 #!/usr/bin/bash 
 
-sed -i 's/\[]/\["16.171.14.64"]/' /home/ubuntu/blogprojectdrf/blog/settings.py
+sed -i 's/\[]/\["Your_Instance_Public_IP"]/' /home/ubuntu/Your_project_folder_name/mysite/settings.py
 
-python3 manage.py migrate 
-python3 manage.py makemigrations     
-python3 manage.py collectstatic
+python manage.py migrate 
+# python manage.py makemigrations     
+python manage.py collectstatic
 sudo service gunicorn restart
 sudo service nginx restart
 #sudo tail -f /var/log/nginx/error.log

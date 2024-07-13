@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ssh root@16.171.14.64 <<EOF
+ssh root@134.209.208.182 <<EOF
   cd blogprojectdrf
   git pull 
   source env/bin/activate
