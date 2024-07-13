@@ -2,10 +2,10 @@
 
 sed -i 's/\[]/\["16.171.14.64"]/' /home/ubuntu/blogprojectdrf/blog/settings.py
 
-python manage.py migrate 
-python manage.py makemigrations     
-python manage.py collectstatic
-sudo service gunicorn restart
+python3 manage.py migrate 
+python3 manage.py makemigrations     
+python3 manage.py collectstatic
+sudo3 service gunicorn restart
 sudo service nginx restart
 #sudo tail -f /var/log/nginx/error.log
 #sudo systemctl reload nginx
