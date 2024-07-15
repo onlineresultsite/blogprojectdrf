@@ -8,14 +8,13 @@ phases:
   build:
     commands:
       - echo Building the application 
-      # You can include any additional build commands here
+      - echo Running tests
+      - pytest /home/ubuntu/blogprojectdrf/ecom_app/tests
   post_build:
     commands:
       - echo Build completed on `date`
-      # You can add any commands here that you want to run after the build
 
 artifacts:
   files:
     - '**/*'
-  base-directory: /home/ubuntu/blogprojectdrf
   discard-paths: no
