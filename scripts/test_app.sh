@@ -3,13 +3,17 @@
 # Activate the virtual environment
 source /home/ubuntu/env/bin/activate
 
+# Navigate to the project directory
 cd /home/ubuntu/blogprojectdrf
 
 # Install any additional dependencies if necessary
 pip install pytest pytest-django selenium
 
-chmod +x /home/ubuntu/blogprojectdrf/scripts/test_app.sh
+# Set the DJANGO_SETTINGS_MODULE environment variable
+export DJANGO_SETTINGS_MODULE=ecom_app.settings
 
-export DJANGO_SETTINGS_MODULE=ecomapp.settings
 # Run tests
-pytest /home/ubuntu/blogprojectdrf/ecomapp/tests/test_login.py
+pytest /home/ubuntu/blogprojectdrf/ecomapp/tests/test_login.py --maxfail=1 --disable-warnings -v
+
+# Deactivate the virtual environment
+deactivate
