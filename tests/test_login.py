@@ -1,62 +1,75 @@
 # ecom_app/tests/test_login.py
 
+
+
+import pytest
+import openpyxl
+from openpyxl.styles import Font, PatternFill
+from openpyxl import Workbook
 from selenium import webdriver
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
-from django.test import LiveServerTestCase
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
-class LoginPageTest(LiveServerTestCase):
+# Initialize the workbook and sheet outside the functions
+wb = openpyxl.Workbook()
+sheet = wb.active
+sheet.title = "Test Results"
 
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.selenium = webdriver.Chrome()  # Ensure ChromeDriver is correctly installed
-        cls.selenium.implicitly_wait(10)  # Wait for elements to load
+row_counter = 1
+@pytest.fixture(scope="module")
+def setup():
+    # Setup the WebDriver
+    driver = webdriver.Chrome()  # Use the browser you prefer
+    yield driver
+    # Teardown
+    driver.quit()
 
-    @classmethod
-    def tearDownClass(cls):
-        cls.selenium.quit()  # Close browser after tests
-        super().tearDownClass()
+@pytest.fixture
+def login_setup():
+    # Placeholder for any additional setup actions specific to each user login
+    pass
 
-    def test_login_page(self):
-        # Navigate to the login page
-        self.selenium.get('http://13.53.206.233:8000/login/')  # Use the actual URL
+def login(driver, username, password):
+    driver.get("http://13.53.206.233:8000/login/")
 
-        try:
-            # Find the login form elements (adjust selectors as needed)
-            username_input = self.selenium.find_element(By.XPATH, '/html/body/div/section/div/div/div/div/div/div[1]/div/form/div[1]/input')  # Adjust ID if necessary
-            password_input = self.selenium.find_element(By.XPATH, '/html/body/div/section/div/div/div/div/div/div[1]/div/form/div[2]/input')  # Adjust ID if necessary
-        
-            login_button = self.selenium.find_element(By.XPATH, '/html/body/div/section/div/div/div/div/div/div[1]/div/form/div[3]/button')  # Adjust ID if necessary
+    try:
+        # Wait for username input field to be visible
+        username_input = WebDriverWait(driver, 20).until(
+            EC.visibility_of_element_located((By.XPATH, "/html/body/div/section/div/div/div/div/div/div[1]/div/form/div[1]/input"))
+        )
+        username_input.send_keys(username)
 
-            # Input username and password
-            username_input.send_keys('akshay')  # Replace with a valid username
-            password_input.send_keys('akTR@300')  # Replace with a valid password
-          
-            # Click the login button
-            login_button.click()
+        # Find password input field
+        password_input = driver.find_element(By.XPATH, "/html/body/div/section/div/div/div/div/div/div[1]/div/form/div[2]/input")
+        password_input.send_keys(password)
 
-            # Check if login was successful
-            try:
-                # Adjust selector to check for successful login (e.g., redirected URL or success message)
-                success_message = self.selenium.find_element(By.XPATH, '/html/body/div/header/nav/div/div/a[1]')  # Adjust ID or use an appropriate method
-                self.report_success("Login successful")
-            except:
-                self.report_error("Login failed. Check credentials or login process.")
-        except Exception as e:
-            self.report_error(f"An error occurred: {e}")
+        # Click on the login button
+        login_button = driver.find_element(By.XPATH, "/html/body/div/section/div/div/div/div/div/div[1]/div/form/div[3]/button")
+        login_button.click()
 
-    def report_success(self, message):
-        print(f"Success: {message}")
-        self.generate_report(message, success=True)
 
-    def report_error(self, message):
-        print(f"Error: {message}")
-        self.generate_report(message, success=False)
+    except TimeoutException as e:
+        print(f"TimeoutException occurred: {e}")
+        assert False, "Timeout waiting for element."
 
-    def generate_report(self, message, success):
-        report_path = '/home/ubuntu/blogprojectdrf/tests/report.html'
-        with open(report_path, 'a') as report_file:
-            if success:
-                report_file.write(f"<p style='color: green;'>{message}</p>")
-            else:
-                report_file.write(f"<p style='color: red;'>{message}</p>")
+    finally:
+        # Add any necessary cleanup or verification steps here
+        pass
+
+@pytest.mark.parametrize("username, password", [
+   
+
+
+     ("akshay", "akTR@300",),        # collection report, todays performance,
+
+])
+
+def test_my_requests(setup, username, password):
+    driver = setup
+
+    login(driver, username, password)
+
+
