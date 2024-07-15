@@ -4,9 +4,9 @@
 sed -i 's/\[]/\["13.53.206.233"]/' /home/ubuntu/blogprojectdrf/ecom_app/settings.py
 
 
-python manage.py migrate 
-python manage.py makemigrations     
-python manage.py collectstatic
+python3 manage.py migrate 
+python3 manage.py makemigrations     
+python3 manage.py collectstatic
 sudo service gunicorn restart
 sudo service nginx restart
 python3 manage.py runserver 0.0.0.0:8000
