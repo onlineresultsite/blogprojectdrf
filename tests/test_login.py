@@ -12,7 +12,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
-
+from webdriver_manager.chrome import ChromeDriverManager
 # Initialize the workbook and sheet outside the functions
 wb = openpyxl.Workbook()
 sheet = wb.active
@@ -22,7 +22,7 @@ row_counter = 1
 @pytest.fixture(scope="module")
 def setup():
     # Setup the WebDriver
-    driver = driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver')  # Use the browser you prefer
+    driver = webdriver.Chrome(ChromeDriverManager().install())
     yield driver
     # Teardown
     driver.quit()
