@@ -1,6 +1,10 @@
 #!/usr/bin/bash 
 
+<<<<<<< HEAD
 sed -i 's/\[]/\["13.53.206.233"]/' /home/ubuntu/blogprojectdrf/blog/settings.py
+=======
+sed -i 's/\[]/\["16.171.139.164"]/' /home/ubuntu/blogprojectdrf/blog/settings.py
+>>>>>>> 74dcd5938f0e545f65dafc194277bace75993739
 
 python manage.py migrate 
 python manage.py makemigrations     
@@ -18,4 +22,4 @@ sudo service nginx restart
 #systemctl status gunicorn
 # Restart:
 #systemctl restart gunicorn
-#sudo systemctl status nginx
+
