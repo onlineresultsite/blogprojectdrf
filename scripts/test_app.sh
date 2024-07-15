@@ -10,6 +10,6 @@ pip install pytest pytest-django selenium
 
 chmod +x /home/ubuntu/blogprojectdrf/scripts/test_app.sh
 
-
+export DJANGO_SETTINGS_MODULE=ecomapp.settings
 # Run tests
 pytest /home/ubuntu/blogprojectdrf/ecomapp/tests/test_login.py

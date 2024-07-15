@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ecomapp.settings')
 # Application definition
 
 INSTALLED_APPS = [
