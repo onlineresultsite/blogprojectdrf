@@ -33,5 +33,10 @@ hooks:
       - location: scripts/start_app.sh
         timeout: 300
         runas: ubuntu
+
+  StartTest:
+      - location: scripts/test_app.sh
+        timeout: 300
+        runas: ubantu
   
   
