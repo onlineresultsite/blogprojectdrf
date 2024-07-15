@@ -11,7 +11,7 @@ python3 manage.py makemigrations
 python3 manage.py collectstatic
 sudo service gunicorn restart
 sudo service nginx restart
-python3 manage.py runserver 0.0.0.0:8000
+# python3 manage.py runserver 0.0.0.0:8000
 #sudo tail -f /var/log/nginx/error.log
 #sudo systemctl reload nginx
 #sudo tail -f /var/log/nginx/error.log
