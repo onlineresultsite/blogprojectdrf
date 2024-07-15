@@ -10,7 +10,7 @@ cd /home/ubuntu/blogprojectdrf
 pip install pytest pytest-django selenium
 
 # Set the DJANGO_SETTINGS_MODULE environment variable
-export DJANGO_SETTINGS_MODULE=ecom_app.settings
+export DJANGO_SETTINGS_MODULE=ecomapp.settings
 
 # Run tests
 pytest /home/ubuntu/blogprojectdrf/ecomapp/tests/test_login.py --maxfail=1 --disable-warnings -v
