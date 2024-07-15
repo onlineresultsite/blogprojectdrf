@@ -1,7 +1,7 @@
 #!/usr/bin/bash 
 
 
-sed -i 's/\[]/\["13.53.206.233"]/' /home/ubuntu/blogprojectdrf/blog/settings.py
+sed -i 's/\[]/\["13.53.206.233"]/' /home/ubuntu/blogprojectdrf/ecom_app/settings.py
 
 
 python manage.py migrate 
