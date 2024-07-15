@@ -5,7 +5,7 @@ source /home/ubuntu/env/bin/activate
 
 sed -i 's/\[]/\["13.53.206.233"]/' /home/ubuntu/blogprojectdrf/ecom_app/settings.py
 
-
+rm -rf /home/ubuntu/blogprojectdrf/staticfiles/*
 python3 manage.py migrate 
 python3 manage.py makemigrations     
 python3 manage.py collectstatic
