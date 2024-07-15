@@ -1,16 +1,14 @@
-# ecom_app/tests/test_login.py
-
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from webdriver_manager.chrome import ChromeDriverManager
-import openpyxl
-from openpyxl.styles import Font, PatternFill
 from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill
 
 # Initialize the workbook and sheet outside the functions
 wb = Workbook()
@@ -33,17 +31,17 @@ row_counter = 2
 
 @pytest.fixture(scope="module")
 def setup():
-    # Setup the WebDriver
+    # Setup the WebDriver with Chrome options
+    chrome_options = Options()
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--headless")  # Optional, if running in headless mode
+
     service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service)
+    driver = webdriver.Chrome(service=service, options=chrome_options)
     yield driver
     # Teardown
     driver.quit()
-
-@pytest.fixture
-def login_setup():
-    # Placeholder for any additional setup actions specific to each user login
-    pass
 
 def login(driver, username, password):
     driver.get("http://13.53.206.233:8000/login/")
