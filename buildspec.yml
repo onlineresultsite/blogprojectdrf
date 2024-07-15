@@ -25,3 +25,6 @@ phases:
 artifacts:
   files:
     - '**/*'
+  # Ensure that all necessary directories, including the tests folder, are included
+  base-directory: /home/ubuntu/blogprojectdrf
+  discard-paths: no

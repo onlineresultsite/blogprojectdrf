@@ -12,4 +12,4 @@ chmod +x /home/ubuntu/blogprojectdrf/scripts/test_app.sh
 
 
 # Run tests
-pytest /home/ubuntu/blogprojectdrf/ecom_app/tests/test_login.py
+pytest /home/ubuntu/blogprojectdrf/ecomapp/tests/test_login.py
