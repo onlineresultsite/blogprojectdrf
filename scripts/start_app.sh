@@ -1,6 +1,7 @@
 #!/usr/bin/bash 
 
 cd /home/ubuntu/blogprojectdrf
+source /env/bin/activate
 
 sed -i 's/\[]/\["13.53.206.233"]/' /home/ubuntu/blogprojectdrf/ecom_app/settings.py
 
