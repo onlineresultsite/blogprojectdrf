@@ -5,7 +5,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from webdriver_manager.chrome import ChromeDriverManager
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill
@@ -33,7 +33,7 @@ def setup():
 
 def login(driver, username, password):
     driver.get("http://13.53.206.233:8000/login/")
-
+    
     try:
         # Wait for username input field to be visible
         username_input = WebDriverWait(driver, 20).until(
@@ -42,11 +42,15 @@ def login(driver, username, password):
         username_input.send_keys(username)
 
         # Find password input field
-        password_input = driver.find_element(By.NAME, "password")
+        password_input = WebDriverWait(driver, 20).until(
+            EC.visibility_of_element_located((By.NAME, "password"))
+        )
         password_input.send_keys(password)
 
-        # Click on the login button
-        login_button = driver.find_element(By.XPATH, "//button[text()='Login']")
+        # Wait for the login button to be clickable
+        login_button = WebDriverWait(driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, "//button[text()='Login']"))
+        )
         login_button.click()
 
         # Verify login success (adjust as necessary for your application)
@@ -66,9 +70,18 @@ def login(driver, username, password):
         status = "Failure"
         message = f"TimeoutException occurred: {e}"
 
+    except NoSuchElementException as e:
+        status = "Failure"
+        message = f"NoSuchElementException occurred: {e}"
+
     finally:
+        # Debugging information
+        print(f"Current URL: {driver.current_url}")
+        print(f"Page HTML: {driver.page_source[:1000]}")  # Print the first 1000 characters of HTML
+        
         # Write results to the Excel sheet
         global row_counter
+        # Add your code to write the result to the Excel sheet here
 
 
 @pytest.mark.parametrize("username, password", [
