@@ -22,7 +22,7 @@ row_counter = 1
 @pytest.fixture(scope="module")
 def setup():
     # Setup the WebDriver
-    driver = webdriver.Chrome()  # Use the browser you prefer
+    driver = driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver')  # Use the browser you prefer
     yield driver
     # Teardown
     driver.quit()
