@@ -120,4 +120,4 @@ hooks:
       runas: ubuntu
     - location: scripts/trigger_github_workflow.sh  # Added this line
       timeout: 300
-      runas: ubuntu
+
