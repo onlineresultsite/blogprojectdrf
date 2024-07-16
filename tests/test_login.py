@@ -1,93 +1,57 @@
 import pytest
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
-from webdriver_manager.chrome import ChromeDriverManager
-
-# Initialize the workbook and sheet outside the functions
-
-
-
-
-
+from selenium.common.exceptions import TimeoutException
 
 @pytest.fixture(scope="module")
 def setup():
-    # Setup the WebDriver with Chrome options
-    chrome_options = Options()
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--headless")  # Optional, if running in headless mode
-
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=chrome_options)
+    # Setup the WebDriver
+    driver = webdriver.Chrome()  # Use the browser you prefer
     yield driver
     # Teardown
     driver.quit()
 
 def login(driver, username, password):
     driver.get("http://13.53.206.233:8000/login/")
-    
+
     try:
         # Wait for username input field to be visible
         username_input = WebDriverWait(driver, 20).until(
-            EC.visibility_of_element_located((By.NAME, "username"))
+            EC.visibility_of_element_located((By.XPATH, "/html/body/div/section/div/div/div/div/div/div[1]/div/form/div[1]/input"))
         )
         username_input.send_keys(username)
 
         # Find password input field
-        password_input = WebDriverWait(driver, 20).until(
-            EC.visibility_of_element_located((By.NAME, "password"))
-        )
+        password_input = driver.find_element(By.XPATH, "/html/body/div/section/div/div/div/div/div/div[1]/div/form/div[2]/input")
         password_input.send_keys(password)
 
-        # Wait for the login button to be clickable
-        login_button = WebDriverWait(driver, 20).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[text()='Login']"))
-        )
+        # Click on the login button
+        login_button = driver.find_element(By.XPATH, "/html/body/div/section/div/div/div/div/div/div[1]/div/form/div[3]/button")
         login_button.click()
 
-        # Verify login success (adjust as necessary for your application)
+        # Wait for the login to complete (example: wait for dashboard page to load)
         WebDriverWait(driver, 20).until(
-            EC.url_changes("http://13.53.206.233:8000/login/")
+            EC.visibility_of_element_located((By.XPATH, "//div[@class='dashboard']"))
         )
 
-        # Check if the login was successful based on URL or a specific element
-        if driver.current_url == "http://13.53.206.233:8000/home/":
-            status = "Success"
-            message = "Login successful"
-        else:
-            status = "Failure"
-            message = "Login failed or unexpected URL"
-
     except TimeoutException as e:
-        status = "Failure"
-        message = f"TimeoutException occurred: {e}"
-
-    except NoSuchElementException as e:
-        status = "Failure"
-        message = f"NoSuchElementException occurred: {e}"
-
-    finally:
-        # Debugging information
-        print(f"Current URL: {driver.current_url}")
-        print(f"Page HTML: {driver.page_source[:1000]}")  # Print the first 1000 characters of HTML
-        
-        # Write results to the Excel sheet
-        global row_counter
-        # Add your code to write the result to the Excel sheet here
-
+        print(f"TimeoutException occurred: {e}")
+        assert False, f"Timeout waiting for element. Login failed with credentials: {username}, {password}"
 
 @pytest.mark.parametrize("username, password", [
-    ("akshay", "akTR@3"),
+    ("akshay", "akTR@300"),
+    # Add more username and password pairs as needed
 ])
 def test_my_requests(setup, username, password):
     driver = setup
     login(driver, username, password)
+    # Add your test assertions here (e.g., check elements on the dashboard)
 
+    # Example assertion (replace with your actual test logic)
+    assert "Dashboard" in driver.title, f"Login test failed for user: {username}"
 
-
+# Run the tests if this script is executed directly
+if __name__ == "__main__":
+    pytest.main()
