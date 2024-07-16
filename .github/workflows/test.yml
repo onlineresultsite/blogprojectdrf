@@ -39,8 +39,12 @@ jobs:
     - name: Install WebDriver Manager
       run: |
         pip install webdriver-manager
+    
+    - name: List files in repository
+      run: |
+        ls -R
 
     - name: Run tests
       run: |
-        pytest tests/login_test.py
+        pytest tests/test_login.py
 
