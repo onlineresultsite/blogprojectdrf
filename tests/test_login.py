@@ -42,7 +42,7 @@ def login(driver, username, password):
 
         # Wait for the login to complete (example: wait for dashboard page to load)
         WebDriverWait(driver, 20).until(
-            EC.visibility_of_element_located((By.XPATH, "//div[@class='dashboard']"))
+            EC.visibility_of_element_located((By.XPATH, "/html/body/div/header/nav/div/div/a[1]"))
         )
 
     except TimeoutException as e:
