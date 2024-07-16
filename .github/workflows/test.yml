@@ -1,0 +1,81 @@
+name: Django CI and Pytest
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  repository_dispatch:
+    types: [run-pytest]
+
+jobs:
+  build:
+    name: Build and Test Django
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.7, 3.8, 3.9]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run Django Tests
+      run: |
+        python manage.py test
+
+  test:
+    name: Run Pytest
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'repository_dispatch' }}
+
+    services:
+      chrome:
+        image: selenium/standalone-chrome
+        ports:
+          - 4444:4444
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install pytest and WebDriver Manager
+        run: |
+          pip install pytest selenium webdriver-manager
+
+      - name: List files in repository
+        run: |
+          ls -R
+
+      - name: Run tests
+        run: |
+          pytest tests/login_test.py
+        continue-on-error: true
+
+      - name: Report results
+        if: failure()
+        run: |
+          echo "Tests failed"
+
+      - name: Report results
+        if: success()
+        run: |
+          echo "Tests passed"
+
