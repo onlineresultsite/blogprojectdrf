@@ -7,8 +7,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from webdriver_manager.chrome import ChromeDriverManager
-from openpyxl import Workbook
-from openpyxl.styles import Font, PatternFill
 
 # Initialize the workbook and sheet outside the functions
 
