@@ -45,6 +45,7 @@ jobs:
       if: failure()
       run: |
         echo "Tests failed" 
+    - name: Report results
       if: success()
       run: |
         echo "Tests passed"
