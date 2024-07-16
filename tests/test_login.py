@@ -83,7 +83,7 @@ def login(driver, username, password):
 
 
 @pytest.mark.parametrize("username, password", [
-    ("akshay", "akTR@300"),
+    ("akshay", "akTR@3"),
 ])
 def test_my_requests(setup, username, password):
     driver = setup
