@@ -11,4 +11,4 @@ curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
      $API_URL
 
 
-# chmod +x scripts/trigger_github_workflow.sh      run manual
+# chmod +x scripts/trigger_github_workflow.sh      run manually
