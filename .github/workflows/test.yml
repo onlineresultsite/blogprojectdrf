@@ -1,10 +1,6 @@
 name: Django CI and Pytest
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
   repository_dispatch:
     types: [run-pytest]
 
