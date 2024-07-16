@@ -1,51 +1,30 @@
-name: Run Pytest
+name: Deploy and Test
 
 on:
-  repository_dispatch:
-    types: [run-pytest]
+  push:
+    branches:
+      - main
 
 jobs:
-  test:
+  deploy:
     runs-on: ubuntu-latest
-
-    services:
-      chrome:
-        image: selenium/standalone-chrome
-        ports:
-          - 4444:4444
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
 
-    - name: Install pytest and WebDriver Manager
-      run: |
-        pip install pytest selenium webdriver-manager
-    
-    - name: List files in repository
-      run: |
-        ls -R
+      - name: Deploy to AWS
+        run: |
+          # Commands to deploy your project to AWS
 
-    - name: Run tests
-      run: |
-        pytest tests/login_test.py
-      continue-on-error: true
-
-    - name: Report results
-      if: failure()
-      run: |
-        echo "Tests failed" 
-    - name: Report results
-      if: success()
-      run: |
-        echo "Tests passed"
+      - name: Run tests
+        run: |
+          pytest tests/test_login.py
