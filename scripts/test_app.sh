@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "test app test app"
 
 # Navigate to the project directory
 cd /home/ubuntu/blogprojectdrf
