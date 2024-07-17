@@ -19,6 +19,8 @@ def index(request):
 # def contact(request):
 #     return render(request, 'ecomapp/contact.html')
 
+def pratibha(request):
+    return render(request, 'ecomapp/bittu.html')
 
 def shop(request):
     products = Product.objects.all()

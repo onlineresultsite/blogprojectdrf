@@ -118,6 +118,8 @@ hooks:
     - location: scripts/start_app.sh
       timeout: 300
       runas: ubuntu
+  AfterAllowTestTraffic:
     - location: scripts/trigger_github_workflow.sh  # Added this line
       timeout: 300
+      runas: ubuntu
 
