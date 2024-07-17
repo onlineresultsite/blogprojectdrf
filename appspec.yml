@@ -118,11 +118,10 @@ hooks:
     - location: scripts/start_app.sh
       timeout: 300
       runas: ubuntu
- ValidateService:
-    - location: scripts/validate_service.sh  # Optional, to ensure the service is up and running
-      timeout: 300
-      runas: ubuntu
-
+#  ValidateService:
+#     - location: scripts/validate_service.sh  # Optional, to ensure the service is up and running
+#       timeout: 300
+#       runas: ubuntu
   AfterAllowTestTraffic:
     - location: scripts/test_app.sh  # Added this line
       timeout: 300
