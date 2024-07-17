@@ -1,6 +1,4 @@
 import pytest
-import sys
-import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service as ChromeService
@@ -17,17 +15,20 @@ PASSWORD = "akTR@300"
 
 @pytest.fixture(scope="module")
 def browser():
-    # options = Options()
-    # options.add_argument("--headless")  # Run in headless mode
-    # options.add_argument("--disable-gpu")
-    driver = webdriver.Chrome()
+    options = Options()
+    options.add_argument("--headless")  # Run in headless mode
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
     yield driver
     driver.quit()
 
 def test_login(browser):
-    browser.get(URL)
-
     try:
+        browser.get(URL)
+
         # Find the username and password input fields
         username_input = WebDriverWait(browser, 30).until(
             EC.visibility_of_element_located((By.XPATH, "//input[@name='username']"))
@@ -46,21 +47,13 @@ def test_login(browser):
         login_button.click()
 
         # Wait for the welcome message to appear after successful login
-        try:
-            welcome_message = WebDriverWait(browser, 60).until(
-                EC.visibility_of_element_located((By.XPATH, "//p[contains(text(), 'Welcome, testnew!')]"))
-            )
+        welcome_message = WebDriverWait(browser, 60).until(
+            EC.visibility_of_element_located((By.XPATH, "//p[contains(text(), 'Welcome, testnew!')]"))
+        )
 
-            # Assert that the welcome message is displayed
-            assert welcome_message.is_displayed()
-            print("Login successful")
-
-            # Save login success report in HTML
-            with open("report.html", "w") as report:
-                report.write("<html><body><h1>Login Test Report</h1><p>Login successful</p></body></html>")
-
-        except TimeoutException as e:
-            handle_test_failure(browser, e)
+        # Assert that the welcome message is displayed
+        assert welcome_message.is_displayed()
+        print("Login successful")
 
     except TimeoutException as e:
         handle_test_failure(browser, e)
@@ -77,4 +70,4 @@ def handle_test_failure(browser, exception):
 
 # Run the test and generate a report
 if __name__ == "__main__":
-    pytest.main(["-v", "--html=report.html", "--self-contained-html", "test_login.py"])
+    pytest.main(["-v", "--html=report.html", "--self-contained-html"])
