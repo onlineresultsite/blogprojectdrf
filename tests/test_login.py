@@ -45,13 +45,15 @@ def test_login(browser):
             EC.element_to_be_clickable((By.XPATH, "//button[@type='submit' and contains(@class, 'btn-primary')]"))
         )
         login_button.click()
-
+        print("success")
         # Wait for the welcome message to appear after successful login
 
     except TimeoutException as e:
         print("fail")
 
-
-# Run the test and generate a report
+# Specify the pytest-html report path and generate the report
 if __name__ == "__main__":
-    pytest.main(["-v", "--html=report.html", "--self-contained-html"])
+    pytest.main([
+        '--html=report.html',  # Specify the path for the HTML report
+        '-v'  # Verbose mode to see detailed test execution logs
+    ])
