@@ -4,7 +4,7 @@ cd /home/ubuntu/blogprojectdrf
 source /home/ubuntu/env/bin/activate
 
 echo "test test"
-print("test tset")
+
 
 sed -i 's/\[]/\["13.53.206.233"]/' /home/ubuntu/blogprojectdrf/ecom_app/settings.py
 
