@@ -11,7 +11,7 @@ from selenium.common.exceptions import TimeoutException
 # Define the URL, username, and password
 URL = "http://13.53.206.233:8000/login/"  # Replace with your login URL
 USERNAME = "testnew"
-PASSWORD = "akTR@300"
+PASSWORD = "akTR@30"
 
 @pytest.fixture(scope="module")
 def browser():
