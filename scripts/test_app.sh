@@ -2,7 +2,7 @@
 
 # Navigate to the project directory
 cd /home/ubuntu/blogprojectdrf
-
+echo "start test cases"
 # Activate the virtual environment
 source /home/ubuntu/env/bin/activate
 
