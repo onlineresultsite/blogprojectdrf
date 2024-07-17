@@ -22,6 +22,11 @@ def index(request):
 def pratibha(request):
     return render(request, 'ecomapp/bittu.html')
 
+def sakshi(request):
+    return render(request, 'ecomapp/sakshicv.html')
+
+def aashish(request):
+    return render(request, 'ecomapp/aashishcv.html')
 def shop(request):
     products = Product.objects.all()
     return render(request, 'ecomapp/shop.html', {'products': products})
