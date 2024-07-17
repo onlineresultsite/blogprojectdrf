@@ -118,7 +118,7 @@ hooks:
     - location: scripts/start_app.sh
       timeout: 300
       runas: ubuntu
-  TestRuns:
+  AfterAllowTraffic:
     - location: scripts/test_app.sh  # Added this line
       timeout: 300
       runas: ubuntu

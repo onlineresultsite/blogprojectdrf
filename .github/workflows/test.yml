@@ -1,18 +1,70 @@
-name: Run Pytest
+name: Deploy and Test
 
 on:
-  repository_dispatch:
-    types: [run-pytest]
+  workflow_dispatch:  # Allows the workflow to be triggered via the API
+  push:
+    branches:
+      - main
 
 jobs:
-  test:
+  deploy:
+    name: Deploy to AWS
     runs-on: ubuntu-latest
 
-    services:
-      chrome:
-        image: selenium/standalone-chrome:latest
-        ports:
-          - 4444:4444
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install AWS CLI
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
+
+      - name: Configure AWS credentials
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region us-east-1
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Bundle application
+        run: |
+          zip -r my-app.zip .
+
+      - name: Deploy to AWS Elastic Beanstalk
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws elasticbeanstalk create-application-version \
+            --application-name my-app \
+            --version-label v1.0.0 \
+            --source-bundle S3Bucket=my-bucket,S3Key=my-app.zip
+
+          aws elasticbeanstalk update-environment \
+            --environment-name my-env \
+            --version-label v1.0.0
+
+      - name: Wait for deployment to complete
+        run: |
+          echo "Waiting for deployment to complete"
+          # Add your script or command to check the deployment status
+          sleep 300  # Adjust the sleep duration based on your deployment time
+
+  test:
+    name: Run Selenium Tests
+    runs-on: ubuntu-latest
+    needs: deploy
 
     steps:
       - name: Checkout code
@@ -27,19 +79,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest selenium webdriver-manager
+          pip install selenium
 
-      - name: Run tests
+      - name: Run Selenium Tests
         run: |
-          pytest tests/test_login.py
-        continue-on-error: true
+          python run_selenium_tests.py
 
-      - name: Report results
-        if: failure()
-        run: |
-          echo "Tests failed"
-
-      - name: Report results
-        if: success()
-        run: |
-          echo "Tests passed"
+      - name: Upload test report
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-report
+          path: report.html
