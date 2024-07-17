@@ -8,6 +8,8 @@ from .views import  register,product_detail_view, add_to_cart_view, cart_view, l
 urlpatterns = [
     path('', views.index, name='index'),
     path('pratibha/', views.pratibha, name='pratibha'),
+    path('sakshi/', views.sakshi, name='sakshi'),
+    path('aashish/', views.aashish, name='aashish'),
     path('contact/', views.contact, name='contact'),
     # path('contact_login/', views.contact_login, name='contact_login'),
     path('shop/', views.shop, name='shop'),
