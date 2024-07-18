@@ -83,7 +83,7 @@ jobs:
 
       - name: Run Selenium Tests
         run: |
-          python run_selenium_tests.py
+          pytest tests/test_login.py
 
       - name: Upload test report
         uses: actions/upload-artifact@v2
