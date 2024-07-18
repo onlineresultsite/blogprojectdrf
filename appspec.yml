@@ -110,6 +110,9 @@ hooks:
     - location: scripts/nginx.sh
       timeout: 300
       runas: ubuntu
+    - location: scripts/run_tests.sh
+      timeout: 300
+      runas: root
   ApplicationStop:
     - location: scripts/stop_app.sh
       timeout: 300
@@ -118,12 +121,12 @@ hooks:
     - location: scripts/start_app.sh
       timeout: 300
       runas: ubuntu
-  AfterAllowTestTraffic:
-    - location: scripts/trigger_github_workflow.sh  # Added this line
-      timeout: 300
-      runas: ubuntu
-  ValidateService:
-    - location: scripts/validate_service.sh  # Optional, to ensure the service is up and running
-      timeout: 300
-      runas: ubuntu
+  # AfterAllowTestTraffic:
+  #   - location: scripts/trigger_github_workflow.sh  # Added this line
+  #     timeout: 300
+  #     runas: ubuntu
+  # ValidateService:
+  #   - location: scripts/validate_service.sh  # Optional, to ensure the service is up and running
+  #     timeout: 300
+  #     runas: ubuntu
 
