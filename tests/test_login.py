@@ -1,6 +1,5 @@
 import pytest
 import openpyxl
-from selenium.webdriver.chrome.options import Options
 from openpyxl.styles import Font, PatternFill
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -21,12 +20,8 @@ URL = "http://13.53.206.233:8000/login/"  # Replace with your login URL
 USERNAME = "newtest"
 PASSWORD = "akTR@300"
 
-
-
-
 # Login function
-def login(setup, username, password):
-    driver = setup
+def login(driver, username, password):
     driver.get(URL)
 
     try:
@@ -73,14 +68,10 @@ def login(setup, username, password):
 # Pytest fixtures for setup and teardown
 @pytest.fixture(scope="module")
 def setup():
-    chrome_options = Options()
-    chrome_options.binary_location = '/usr/bin/google-chrome'  # Update with correct path
-    chrome_options.add_argument('--headless')
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.add_argument('--disable-dev-shm-usage')
-    
-    driver = webdriver.Chrome(options=chrome_options)
+    # Setup the WebDriver
+    driver = webdriver.Chrome()  # Use the browser you prefer
     yield driver
+    # Teardown
     driver.quit()
 
 # Test function with parameterization
