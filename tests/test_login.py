@@ -95,7 +95,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.common.exceptions import TimeoutException
 
 # Global variables for Excel handling
 wb = openpyxl.Workbook()
@@ -107,7 +107,7 @@ row_counter = 1
 
 # URL, username, and password
 URL = "http://13.53.206.233:8000/login/"  # Replace with your login URL
-USERNAME = "newtest"
+USERNAME = "aak"
 PASSWORD = "akTR@300"
 
 # Login function
@@ -161,7 +161,12 @@ def setup():
     # Setup the WebDriver with the correct path to ChromeDriver
     chrome_options = webdriver.ChromeOptions()
     chrome_options.binary_location = "/usr/bin/google-chrome"  # Update this path if necessary
-    service = webdriver.chrome.service.Service(executable_path="/usr/local/bin/chromedriver")  # Path to ChromeDriver
+    chrome_options.add_argument("--headless")  # Ensure headless mode
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-gpu")  # Temporarily needed if running on Windows
+    
+    service = webdriver.chrome.service.Service(executable_path="/usr/local/bin/chromedriver")
 
     driver = webdriver.Chrome(service=service, options=chrome_options)
     yield driver
