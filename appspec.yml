@@ -128,5 +128,5 @@ hooks:
   # ValidateService:
   #   - location: scripts/validate_service.sh  # Optional, to ensure the service is up and running
   #     timeout: 300
-  #     runas: ubuntu
+  #     runas: 
 
