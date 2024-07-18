@@ -1,5 +1,13 @@
 #!/bin/bash
-echo "test app test app"
+#!/bin/bash
+#!/bin/bash
+echo "Starting test_app.sh" >> /home/ubuntu/deploy.log
+
+# Run your test commands here
+# Example:
+curl -f http://localhost/health-check || exit 1
+
+echo "Finished test_app.sh" >> /home/ubuntu/deploy.log
 
 # Navigate to the project directory
 # cd /home/ubuntu/blogprojectdrf
