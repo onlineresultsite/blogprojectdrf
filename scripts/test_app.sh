@@ -2,12 +2,25 @@
 #!/bin/bash
 #!/bin/bash
 echo "Starting test_app.sh" >> /home/ubuntu/deploy.log
+#!/bin/bash
 
-# Run your test commands here
-# Example:
-curl -f http://localhost/health-check || exit 1
+# Ensure the script is being run
+echo "Starting test_app.sh" | tee -a /home/ubuntu/deploy.log
 
-echo "Finished test_app.sh" >> /home/ubuntu/deploy.log
+# Check current user
+echo "Running as user: $(whoami)" | tee -a /home/ubuntu/deploy.log
+
+# Run the health check
+if curl -f http://localhost/health-check; then
+  echo "Health check passed" | tee -a /home/ubuntu/deploy.log
+else
+  echo "Health check failed" | tee -a /home/ubuntu/deploy.log
+  exit 1
+fi
+
+# Ensure the script finished
+echo "Finished test_app.sh" | tee -a /home/ubuntu/deploy.log
+
 
 # Navigate to the project directory
 # cd /home/ubuntu/blogprojectdrf
